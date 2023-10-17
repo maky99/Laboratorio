@@ -1,0 +1,40 @@
+doctype html
+html(lang="en")
+  head
+    meta(charset="UTF-8")
+    meta(name="viewport", content="width=device-width, initial-scale=1.0")
+    link(rel="stylesheet", href="crearUsuario.css")
+    title Registro de Personal
+
+  body
+    h1 Registro de Personal
+    div.container
+      form(action="/", method="post")
+        label(for="nombre") Nombre:
+        input(type="text", name="nombre", id="nombre", required, autocomplete="off")
+        br
+        label(for="apellido") Apellido:
+        input(type="text", name="apellido", id="apellido", required, autocomplete="off")
+        br
+        label(for="dni") DNI:
+        input(type="text", name="dni", id="dni", required, autocomplete="off")
+        br
+        label(for="mail") Email:
+        input(type="text", name="mail", id="mail", required, autocomplete="off")
+        br
+        label(for="passow") Password:
+        input(type="password", name="password", id="password", required, autocomplete="off")
+        br
+        label(for="cargo") Cargo: 
+        select(name="cargo", id="cargo", required)
+          option(value="") 
+          option(value="Recepcionista") Recepcionista
+          option(value="Tecnico") Tecnico 
+          option(value="Bioquimico") Bioquimico
+        div
+          button.btn.btn-primary(type="submit") Cargar
+          button.btn.btn-secondary Editar
+          button.btn.btn-danger Eliminar
+        br
+        button.btn.btn-info.btn-block(type="button") Cargar Orden de Trabajo
+

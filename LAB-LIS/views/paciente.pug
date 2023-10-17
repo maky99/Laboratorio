@@ -1,0 +1,51 @@
+doctype html
+html(lang="en")
+  head
+    meta(charset="UTF-8")
+    meta(name="viewport", content="width=device-width, initial-scale=1.0")
+    link(rel="stylesheet", href="pacientes.css")
+    script(src="https://cdn.jsdelivr.net/npm/sweetalert2@11")
+    script(src="../controller/paciente.js") // Corregido el src
+    title Registro de Personal
+
+  body
+    h1 Registro de Pacientes
+    div.container
+      form(action="/pacienteCargado", method="post" id="pacienteForm")
+        label(for="nombre") Nombre:
+        input(type="text", name="nombre", id="nombre", required, autocomplete="off")
+        br
+        label(for="apellido") Apellido:
+        input(type="text", name="apellido", id="apellido", required, autocomplete="off")
+        br
+        label(for="dni") DNI:
+        input(type="text", name="dni", id="dni", required, autocomplete="off")
+        br
+        label(for="edad") Edad:
+        input(type="text", name="edad", id="edad", required, autocomplete="off")
+        br
+        label(for="fecha_de_nacimiento") Fecha de Nacimiento:
+        input(type="date", name="fecha_de_nacimiento", id="fecha_de_nacimiento", autocomplete="off")
+        label(for="genero") Género:
+        select(name="genero", id="genero", required)
+          option(value="") Seleccionar
+          option(value="Hombre") Hombre
+          option(value="Mujer") Mujer
+        br
+        label(for="telefono") Teléfono:
+        input(type="text", name="telefono", id="telefono", required, autocomplete="off")
+        br
+        label(for="direccion") Dirección:
+        input(type="text", name="direccion", id="direccion", required, autocomplete="off")
+        br
+        label(for="mail") Email:
+        input(type="text", name="mail", id="mail", required, autocomplete="off")
+        br
+        div.buttons
+          button.btn.btn-primary( id= "cargar" type="submit") Cargar
+          button.btn.btn-secondary(id="editar" onClick="actualizarPaciente()") Editar
+          button.btn.btn-danger Eliminar
+        br
+        button.btn.btn-info.btn-block(type="button") Cargar Orden de Trabajo
+        input(type="hidden", name="_method", value="PUT")
+        button.btn.btn-info.btn-block(type="button", id="opciones-button", style="display:none") Cargar Opciones

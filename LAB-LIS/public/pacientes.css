@@ -1,0 +1,65 @@
+/* Estilos generales */
+body {
+  background: rgb(152, 240, 186);
+  margin: 0;
+  font-family: 'Comic Sans MS', cursive, sans-serif; /* Fuente tipo animada */
+}
+
+h1 {
+  text-align: center;
+  color: white;
+  text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5); /* Sombra para el título */
+}
+
+.container {
+  max-width: 700px;
+  margin: 0 auto;
+  background-color: white;
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+  text-align: center; /* Alineación de contenido centrada */
+}
+
+/* Estilos para los label */
+label {
+  display: block;
+  text-align: left; /* Alineación de texto a la izquierda */
+  color: rgb(109, 106, 106); /* Color de texto gris */
+}
+
+/* Estilos para los input */
+input[type="text"],
+input[type="date"] {
+  width: 90%;
+  padding: 10px;
+  margin: 5px 0;
+  border: none;
+  border-bottom: 2px solid #777; /* Borde inferior gris */
+  background: transparent; /* Fondo transparente */
+  margin-left: 10px; /* Margen izquierdo para evitar tocar el borde */
+  margin-right: 10px; /* Margen derecho para evitar tocar el borde */
+}
+
+/* Estilos para el select */
+select {
+  width: 100%;
+  padding: 10px;
+  margin: 5px 0;
+  border: 2px solid #777; /* Borde gris */
+  background-color: transparent; /* Fondo transparente */
+}
+
+/* Estilos para los botones */
+button {
+  margin: 5px;
+  background-color: #10b433; /* Botones verdes chillón */
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 5px;
+}
+
+
+
+  
