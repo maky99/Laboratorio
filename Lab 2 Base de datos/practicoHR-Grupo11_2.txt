@@ -1,0 +1,206 @@
+
+1)
+
+-- Por motivos presupuestarios, el departamento de recursos humanos
+-- necesita un informe que muestre los apellidos y el salario de los empleados
+-- que ganen más de 12.000 dólares. 
+
+SELECT last_name,salary
+FROM employees
+WHERE salary>12000;
+
+
+2)
+
+-- Cree un informe que muestre el apellido del empleado y el número de departamento del empleado número 176
+
+SELECT last_name,department_id
+FROM employees
+WHERE employee_id = 176;
+
+
+3)
+
+-- El departamento de recursos humanos necesita buscar los empleados con
+-- salarios altos y bajos. Muestre el apellido y el salario de cualquier empleado
+-- cuyo salario no está en el rango de 5.000 a 12.000 dólares. 
+
+SELECT last_name as Apellido, salary AS Salario 
+FROM employees
+WHERE salary not BETWEEN 5000 and 12000;
+
+VARIANTE
+
+SELECT last_name as Apellido, salary AS Salario 
+FROM employees
+WHERE salary <= 5000 or salary>=12000;
+
+
+4)
+
+-- Cree un informe para mostrar el apellido, el identificador de puesto y la
+-- fecha de inicio para los empleados con los apellidos Matos y Taylor. Ordene
+-- la consulta por orden ascendente por fecha de inicio.
+
+SELECT last_name AS apellido, job_id, hire_date AS "fecha de contratacion"
+FROM employees
+WHERE last_name = "Taylor" or 
+last_name= "Matos"
+ORDER by hire_date ASC;
+
+
+5)
+
+-- Muestre el apellido y el número de departamento de todos los empleados
+-- de los departamentos 20 y 50 en orden alfabético ascendente por nombre.
+
+SELECT last_name AS apellido, department_id AS "Num departamento"
+FROM employees
+WHERE department_id IN (20, 50)
+ORDER by last_name asc;
+
+
+6)
+
+-- Encuentre el apellido y el salario de los empleados que ganan entre 5.000 y
+-- 12.000 dólares y están en el departamento 20 ó 50. Etiquete las columnas
+-- como Employee y Monthly Salary, respectivamente. 
+
+SELECT last_name AS Employee, salary AS "Monthly Salary"
+FROM employees
+WHERE (salary BETWEEN 5000 AND 12000) 
+AND (department_id = 20 OR department_id = 50);
+
+
+7)
+
+-- El departamento de recursos humanos necesita un informe que muestre el
+-- apellido y la fecha de contratación de todos los empleados contratados en
+-- 1994.
+
+SELECT last_name AS apellido, hire_date AS "fecha de contratacion"
+FROM employees
+WHERE hire_date BETWEEN '1994-01-01' AND '1994-12-31';
+
+
+8)
+
+-- Cree un informe que muestre el apellido y el cargo de todos los empleados
+-- que no tengan supervisor
+
+SELECT e.last_name AS apellido, j.job_title AS cargo 
+FROM employees e JOIN jobs j ON j.job_id = e.job_id 
+WHERE e.manager_id is null;
+
+
+9)
+
+-- Cree un informe que muestre el apellido, el salario y la comisión de todos
+-- los empleados que ganen comisiones. Ordene los datos en orden
+-- descendente por salario y comisiones.
+
+SELECT last_name AS apellido, salary AS salario, commission_pct AS comision
+FROM employees
+WHERE commission_pct IS NOT NULL
+ORDER BY salary DESC, commission_pct DESC;
+
+
+10)
+
+-- Los miembros del departamento de recursos humanos desean tener más
+-- flexibilidad con las consultas que está creando. Quieren un informe que
+-- muestre el apellido y el salario de empleados que ganen más que una
+-- cantidad que el usuario especificará tras un prompt. El informe mostrará
+-- estos resultados:
+
+-- Definir una variable de usuario para el monto de salario
+SET @monto_salario = 1000; -- Cambia al valor que desees
+
+-- Consulta para seleccionar empleados con salarios mayores que el valor de la variable
+SELECT last_name AS Apellido, salary AS Salario
+FROM employees
+WHERE salary > @monto_salario;
+
+
+
+11)
+
+-- El departamento de recursos humanos quiere ejecutar informes basados en
+-- un supervisor. Cree una consulta que pida al usuario un identificador de
+-- supervisor y genere el identificador de empleado, el apellido, el salario y el
+-- departamento de los empleados de ese supervisor. El departamento de
+-- recursos humanos quiere poder ordenar el informe por una columna
+-- seleccionada. Puede probar los datos con estos valores: manager ID = 103,
+-- ordenado por apellido de empleado:
+
+set @supervisor_id = 103;
+
+SELECT e.employee_id AS "Id Empleado", e.last_name AS Apellido, e.salary AS Salario, d.department_name AS Departamento
+FROM employees e
+JOIN departments d ON e.department_id = d.department_id
+WHERE e.manager_id = @supervisor_id
+ORDER BY e.last_name;
+
+
+12)
+
+-- Muestre el apellido de todos los empleados cuya tercera letra sea la a.
+
+SELECT last_name AS apellido
+FROM employees
+WHERE SUBSTRING(last_name, 3, 1) = 'a'; 
+
+======IMPORTANTE======
+--SUBSTRING(), el segundo parámetro indica la posición de inicio y 
+el tercer parámetro indica la longitud de la subcadena que deseas extraer.
+
+--EN SQL EL CONTEO COMIENZA EN 1
+
+=====================	
+
+
+13)
+
+-- Muestre el apellido de todos los empleados que tengan tanto una a como
+-- una e en su apellido.
+
+SELECT last_name AS apellido
+FROM employees
+WHERE last_name LIKE '%a%' AND last_name LIKE '%e%';
+
+======IMPORTANTE======
+El símbolo de porcentaje (%) antes y después de la letra por ejemplo "a" significa que estamos buscando la 
+letra "a" en cualquier posición dentro del apellido.
+si colocamos 'a%' buscara los que empiecen con "a"
+si colocamos '%a' buscara los que terminen con "a"
+======================
+
+
+14)
+
+-- Muestre el apellido, el puesto de trabajo y el salario de todos los empleados
+-- que sean representante de ventas o administrativo y cuyo salario sea
+-- distinto de 2.500, 3.500 ó 7.000 dólares.
+
+SELECT e.last_name Apellido, j.job_title Puesto, e.salary Salario
+FROM employees e 
+JOIN jobs j ON j.job_id = e.job_id
+WHERE  (j.job_id LIKE 'SA%' OR j.job_id LIKE 'AD%')
+AND salary not in(2500,3500,7000);
+
+
+15)
+
+-- Mostrar el apellido, el salario y la comisión de todos los empleados cuyo
+-- importe de comisión sea del 20%.
+
+SELECT last_name Apellido, salary Salario, commission_pct Comision
+FROM employees
+WHERE commission_pct = 0.2;
+
+VARIANTE
+
+SELECT last_name Apellido, salary Salario, commission_pct Comision
+FROM employees
+WHERE commission_pct IN (0.2);
+

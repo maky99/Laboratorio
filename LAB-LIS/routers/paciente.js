@@ -3,11 +3,9 @@ const router = express.Router();
 const Paciente = require('../models/paciente');
 
 
-router.get('/cargarPaciente',(req,res)=>{
+router.get('/cargarPaciente', (req, res) => {
     res.render('paciente');
-    
 });
-
 
 router.get('/buscarPaciente', (req, res) => {
     const dni = req.query.dni;
@@ -17,25 +15,24 @@ router.get('/buscarPaciente', (req, res) => {
             dni: dni
         }
     })
-    .then(paciente => {
-        if (paciente) {
-            console.log('Paciente encontrado en la base de datos'); // Agrega esta línea
-            res.json(paciente);
-        } else {
-            console.log('Paciente no encontrado en la base de datos'); // Agrega esta línea
+        .then(paciente => {
+            if (paciente) {
+                console.log('Paciente encontrado en la base de datos'); // Agrega esta línea
+                res.json(paciente);
+            } else {
+                console.log('Paciente no encontrado en la base de datos'); // Agrega esta línea
+                res.json('No se encontró paciente');
+            }
+        })
+        .catch(error => {
+            console.error(error);
             res.json('No se encontró paciente');
-        }
-    })
-    .catch(error => {
-        console.error(error);
-        res.json('No se encontró paciente');
-    });
+        });
 });
-
 
 router.get('/buscarApellido', async (req, res) => {
     const apellido = req.query.apellido;
-    
+
     try {
         const { rows: pacientes, count: total } = await Paciente.findAndCountAll({
             where: { apellido: apellido }
@@ -43,7 +40,7 @@ router.get('/buscarApellido', async (req, res) => {
 
         if (total > 0) {
             res.json({ pacientes, total });
-            console.log(pacientes,total);
+            console.log(pacientes, total);
         } else {
             res.json('No se encontró paciente');
         }
@@ -53,36 +50,30 @@ router.get('/buscarApellido', async (req, res) => {
     }
 });
 
-
-
-router.get('/buscarEmail',(req,res)=>{
+router.get('/buscarEmail', (req, res) => {
     const mail = req.query.mail;
 
     Paciente.findOne({
-        where:{mail:mail}
+        where: { mail: mail }
     })
-    .then(paciente=>{
-        if (paciente) {
-            res.json(paciente);
-        } else {
+        .then(paciente => {
+            if (paciente) {
+                res.json(paciente);
+            } else {
+                res.json('No se encontró paciente');
+            }
+        })
+        .catch(error => {
+            console.error(error);
             res.json('No se encontró paciente');
-        }
-    })
-    .catch(error=>{
-        console.error(error);
-        res.json('No se encontró paciente');
-    });
+        });
 })
-    
-
-
-
 
 router.put('/actualizar', async (req, res) => {
     try {
         const { nombre, apellido, dni, edad, fecha_de_nacimiento, genero, telefono, direccion, mail } = req.body;
         const fecha_de_actualizacion = new Date();
-    
+
         // Definir el objeto "paciente" usando el modelo de paciente
         const paciente = await Paciente.findOne({
             where: {
@@ -105,7 +96,7 @@ router.put('/actualizar', async (req, res) => {
 
             // Guardar los cambios
             await paciente.save();
-            
+
             res.json('Paciente Actualizado!');
         } else {
             res.json('Paciente no encontrado en la base de datos');
@@ -116,24 +107,21 @@ router.put('/actualizar', async (req, res) => {
     }
 });
 
-
-
-
 router.post('/pacienteCargado', (req, res) => {
     const { nombre, apellido, dni, edad, fecha_de_nacimiento, genero, telefono, direccion, mail } = req.body;
     const estado = true;
     const fecha_de_creacion = new Date();
     const fecha_de_actualizacion = new Date();
-    
+
     Paciente.create({
         nombre, apellido, dni, edad, fecha_de_nacimiento, genero, telefono, direccion, mail, fecha_de_creacion, fecha_de_actualizacion, estado
     })
-    .then(() => {
-        res.json('Paciente creado con éxito');
-    })
-    .catch(error => {
-        console.error(error);
-        res.json('No se pudo crear el paciente');
-    });
+        .then(() => {
+            res.json('Paciente creado con éxito');
+        })
+        .catch(error => {
+            console.error(error);
+            res.json('No se pudo crear el paciente');
+        });
 });
 module.exports = router;
